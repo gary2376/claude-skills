@@ -1,0 +1,66 @@
+{
+  "sales": {
+    "label": "業務/銷售",
+    "keywords": ["Revenue Generation", "Quota Attainment", "Pipeline Management", "Consultative Selling", "CRM", "Salesforce", "HubSpot", "Closed-Won", "ARR", "MRR", "Win Rate", "Client Retention", "Territory Management", "Negotiation", "Upsell", "Cross-sell"]
+  },
+  "software_engineer": {
+    "label": "軟體工程師",
+    "keywords": ["System Design", "REST API", "Microservices", "CI/CD", "Kubernetes", "Docker", "AWS", "PostgreSQL", "TypeScript", "RAG", "LangChain", "Vector Database", "Pinecone", "Weaviate", "Prompt Engineering", "DevSecOps"]
+  },
+  "product_manager": {
+    "label": "產品經理 PM",
+    "keywords": ["Product Roadmap", "Product Strategy", "Cross-functional Leadership", "A/B Testing", "KPIs", "Go-to-market", "Stakeholder Management", "SQL", "User Stories", "Agile", "Scrum", "LLM-powered features", "Model Evaluation"]
+  },
+  "marketing_social": {
+    "label": "行銷/社群經營",
+    "keywords": ["Content Calendar", "Community Management", "Paid Social", "Meta Ads Manager", "Influencer Marketing", "TikTok", "Reels", "Shorts", "Social Listening", "Social Commerce", "Meta Blueprint", "Google Analytics", "HubSpot Social Media", "Hootsuite"]
+  },
+  "hr": {
+    "label": "人資 HR",
+    "keywords": ["Full-Cycle Recruiting", "Talent Acquisition", "HRIS", "Workday", "BambooHR", "Greenhouse", "Employee Relations", "Employee Engagement", "Onboarding", "Performance Management"]
+  },
+  "ecommerce": {
+    "label": "電商營運/直播主/網紅",
+    "keywords": ["GMV", "ROAS", "轉換率", "客單價", "回購率", "Shopify Plus", "Klaviyo", "A/B Testing", "Digital Merchandising", "直播帶貨", "粉絲互動率", "KOL 合作", "選品規劃"]
+  },
+  "customer_service": {
+    "label": "客服/CS",
+    "keywords": ["CSAT", "FCR", "First Contact Resolution", "SLA Adherence", "De-escalation", "Zendesk", "Salesforce", "Active Listening", "High-Volume Support", "Ticket Resolution"]
+  },
+  "finance_advisor": {
+    "label": "金融理財顧問/保險業務",
+    "keywords": ["Portfolio Management", "Asset Allocation", "Wealth Management", "Retirement Planning", "Estate Planning", "Risk Management", "Client Relationship Management", "Underwriting", "Policy Sales", "CFP", "CFA", "理財規劃人員證照", "投資型保單證照"]
+  },
+  "education_tutor": {
+    "label": "教育/補教老師",
+    "keywords": ["教學科目", "學生年齡層", "學生程度", "成績提升", "引導式教學", "啟發式教學", "個別關照"]
+  },
+  "real_estate": {
+    "label": "房仲/不動產經紀人",
+    "keywords": ["開發案源", "帶看", "簽約", "成交件數", "成交總額", "客戶回流率", "區域行情掌握", "不動產營業員證照", "不動產經紀人證照"]
+  },
+  "flight_attendant": {
+    "label": "空服員/航空業",
+    "keywords": ["多益分數", "TOEIC", "服務業經驗", "緊急救護證照", "CPR", "航空公司文化契合度"]
+  },
+  "legal": {
+    "label": "法律/律師",
+    "keywords": ["Litigation", "Regulatory Compliance", "Contract Negotiation", "LexisNexis", "Westlaw", "E-discovery", "Relativity", "Nuix", "Bar Admission"]
+  },
+  "food_service": {
+    "label": "餐飲服務業",
+    "keywords": ["熱情", "反應快", "溝通協調", "食材處理", "抗壓性", "標準化作業流程", "SOP"]
+  },
+  "freelancer": {
+    "label": "自由工作者/接案",
+    "keywords": ["案件範疇", "解決的問題", "成果數字", "客戶見證", "客戶推薦"]
+  },
+  "healthcare_nursing": {
+    "label": "醫療/護理",
+    "keywords": ["Patient Assessment", "Medication Administration", "IV Therapy", "Wound Care", "Telemetry", "EHR", "Epic", "Cerner", "Meditech", "BLS", "ACLS", "PALS", "CCRN", "TNCC"]
+  },
+  "design_creative": {
+    "label": "設計/創意",
+    "keywords": ["Adobe Creative Suite", "Photoshop", "Illustrator", "InDesign", "Figma", "After Effects", "Typography", "Brand Systems", "Layout Design", "Visual Storytelling", "Motion Design", "UI/UX Hybrid"]
+  }
+}

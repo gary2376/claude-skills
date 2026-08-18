@@ -1,0 +1,14 @@
+{
+  "english": {
+    "verbs": ["leverage", "utilize", "harness", "streamline", "facilitate", "optimize", "empower", "navigate", "illuminate", "bolster", "foster", "elevate", "unpack", "dive into", "embrace", "unlock"],
+    "adjectives": ["pivotal", "robust", "innovative", "seamless", "cutting-edge", "comprehensive", "nuanced"],
+    "transitions": ["moreover", "furthermore", "delve", "in today's fast-paced world", "in conclusion"],
+    "hype": ["revolutionary", "transformative", "game-changing"]
+  },
+  "chinese": {
+    "empty_words": ["賦能", "抓手", "閉環", "全方位", "痛點", "賦予", "聚焦", "深耕", "打造"],
+    "pattern_notes": "整段充斥排比/對偶句(不是……而是……反覆出現)、段落固定用「首先、其次、最後」開頭、結尾附一句溫馨但空泛的建議、整段拿掉一半名詞語意幾乎不變"
+  },
+  "judgement_principle": "一句話如果拿掉品牌/專有名詞後仍然放諸四海皆準(套用到任何公司任何人身上都成立),視為空話,優先標記",
+  "source": "resume-rubric.md 第三節第5條; 最高標準依據: 維基百科編輯社群公開發布的抓包AI味指南"
+}
