@@ -5,6 +5,7 @@
 ## 收錄
 
 - [resume-jd-checker](resume-jd-checker/) — 繁體中文履歷 x JD 關鍵字健檢
+- [prompt-craft](prompt-craft/) — 模糊需求轉結構化 prompt，缺漏欄位主動反問
 
 ## 安裝
 

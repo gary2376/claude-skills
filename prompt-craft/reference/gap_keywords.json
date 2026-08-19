@@ -1,0 +1,27 @@
+{
+  "_note": "6 個維度的雙語關鍵字池，來自 reference/research.md 第一節的框架收斂結論（角色/背景/格式/受眾語氣/範例/限制步驟）。子字串比對，不做斷詞，跟 resume-jd-checker/scripts/keyword_match.py 同一套決定性比對哲學。",
+  "role": {
+    "label": "角色／身分",
+    "keywords": ["角色", "身分", "你是", "扮演", "以...的身分", "act as", "as a", "you are", "your role", "persona"]
+  },
+  "context": {
+    "label": "背景／脈絡",
+    "keywords": ["背景", "原因", "情境", "因為", "目的是", "用途", "context", "background", "because", "purpose", "for the purpose"]
+  },
+  "format": {
+    "label": "輸出格式／長度",
+    "keywords": ["格式", "字數", "字以內", "條列", "表格", "分點", "段落", "篇幅", "format", "word count", "words", "bullet", "table", "paragraph", "length"]
+  },
+  "audience_tone": {
+    "label": "受眾／語氣",
+    "keywords": ["語氣", "正式", "口語", "受眾", "給主管", "給客戶", "給老闆", "看的人", "tone", "audience", "formal", "casual", "polite", "friendly"]
+  },
+  "example": {
+    "label": "範例",
+    "keywords": ["範例", "例如", "像這樣", "舉例", "參考這個", "example", "e.g.", "such as", "for instance", "sample"]
+  },
+  "constraints_steps": {
+    "label": "限制／步驟拆解",
+    "keywords": ["限制", "不要", "不可以", "禁止", "步驟", "分成", "階段", "依序", "constraint", "must not", "should not", "step by step", "steps", "stage"]
+  }
+}
