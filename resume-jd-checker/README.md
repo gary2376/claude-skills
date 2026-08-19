@@ -4,11 +4,11 @@
 
 ## 安裝
 
-貼給 Claude：
+在終端機執行（或直接貼給你的 agent 執行）：
 ```
-幫我安裝這個 Claude Skill：https://github.com/gary2376/claude-skills/tree/master/resume-jd-checker
-複製到 ~/.claude/skills/resume-jd-checker
+npx skills add https://github.com/gary2376/claude-skills/tree/master/resume-jd-checker
 ```
+會自動偵測目前的 agent（Claude Code、Codex、Cursor 等）裝到對應路徑，不限 Claude 專用。
 
 ## 功能
 - 中英雙語關鍵字比對（JD vs 履歷，目前科技/AI 產業支援最完整）

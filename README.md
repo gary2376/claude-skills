@@ -9,8 +9,8 @@
 
 ## 安裝
 
-貼給 Claude（`<skill資料夾名>` 換成上面清單的名字）：
+在終端機執行（或直接貼給你的 agent 執行，`<skill資料夾名>` 換成上面清單的名字）：
 ```
-幫我安裝這個 Claude Skill：https://github.com/gary2376/claude-skills/tree/master/<skill資料夾名>
-複製到 ~/.claude/skills/<skill資料夾名>
+npx skills add https://github.com/gary2376/claude-skills/tree/master/<skill資料夾名>
 ```
+會自動偵測目前的 agent（Claude Code、Codex、Cursor 等）裝到對應路徑，不限 Claude 專用。

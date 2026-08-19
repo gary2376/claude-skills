@@ -5,11 +5,11 @@
 
 ## 安裝
 
-貼給 Claude：
+在終端機執行（或直接貼給你的 agent 執行）：
 ```
-幫我安裝這個 Claude Skill：https://github.com/gary2376/claude-skills/tree/master/prompt-craft
-複製到 ~/.claude/skills/prompt-craft
+npx skills add https://github.com/gary2376/claude-skills/tree/master/prompt-craft
 ```
+會自動偵測目前的 agent（Claude Code、Codex、Cursor 等）裝到對應路徑，不限 Claude 專用。
 
 ## 功能
 - 偵測需求裡缺了角色、背景、格式、受眾語氣、範例、限制這 6 個維度中的哪些
