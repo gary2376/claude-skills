@@ -2,12 +2,16 @@
 """最小自我檢查（assert-based，非測試框架）。跑法：
     python3 scripts/test_profile_check.py
 """
+import io
+import json
 import re
 import sys
+import tempfile
+from contextlib import redirect_stdout
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from profile_check import contains_term, detect_hits, detect_identity_only, load_json  # noqa: E402
+from profile_check import LENGTH_TABLE, contains_term, detect_hits, detect_identity_only, load_json, main  # noqa: E402
 
 
 def test_empty_adjective_hit():
@@ -60,6 +64,31 @@ def test_contains_term_basic():
     assert contains_term("認真工作", "熱愛生活") is False
 
 
+def _run_main(bio_text, platform, goal):
+    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+        f.write(bio_text)
+        bio_path = f.name
+    old_argv = sys.argv
+    try:
+        sys.argv = ["profile_check.py", "--bio", bio_path, "--platform", platform, "--goal", goal]
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            main()
+        return json.loads(buf.getvalue())
+    finally:
+        sys.argv = old_argv
+        Path(bio_path).unlink()
+
+
+def test_main_integration_known_platform_and_other():
+    data = _run_main("熱愛生活，個性隨和開朗", "tinder", "fast")
+    assert data["length_recommendation"] == LENGTH_TABLE[("tinder", "fast")]
+    assert "熱愛生活" in data["empty_adjective_hits"]
+
+    data_other = _run_main("熱愛生活，個性隨和開朗", "other", "fast")
+    assert data_other["length_recommendation"]["range"] == "無查表資料"
+
+
 def run_all():
     tests = [
         test_empty_adjective_hit,
@@ -67,6 +96,7 @@ def run_all():
         test_identity_only_true_for_bare_tag,
         test_identity_only_false_when_content_exists,
         test_contains_term_basic,
+        test_main_integration_known_platform_and_other,
     ]
     for t in tests:
         t()
