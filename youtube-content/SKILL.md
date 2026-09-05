@@ -51,8 +51,11 @@ See `reference/output-formats.md` for worked examples of each format.
 
 ## Workflow
 
-1. **Fetch** the transcript using the helper script with `--text-only --timestamps`.
-2. **Validate**: confirm the output is non-empty and in the expected language. If empty, retry without `--language` to get any available transcript. If still empty, tell the user the video likely has transcripts disabled.
+1. **Fetch** the transcript using the helper script with `--text-only --timestamps`, with no `--language` on the first try.
+2. **Validate and retry on failure** — the right retry direction depends on which error you get, they are opposite:
+   - `"No transcript found. Try specifying a language..."` (the no-language default call couldn't pick a track) → **add** an explicit `--language` list. Guess from context: the video's apparent language plus `en` as a fallback (e.g. a Chinese-language video: `--language zh-TW,zh-Hant,zh,en`). Confirmed in testing: some videos' transcript simply isn't found by the library's own default track selection, but resolve fine once you name the language(s) explicitly.
+   - You already passed `--language` and it came back empty/wrong → **drop** `--language` (or broaden the list) to fall back to whatever transcript is actually available, then note the real language to the user.
+   - Either way still empty after retrying → tell the user the video likely has transcripts disabled (confirmed real case: some channels never enable captions at all — this isn't fixable by retrying, only an audio-transcription fallback would help, which this skill doesn't have).
 3. **Chunk if needed**: if the transcript exceeds ~50K characters, split into overlapping chunks (~40K with 2K overlap) and summarize each chunk before merging.
 4. **Transform** into the requested output format. If the user did not specify a format, default to a summary.
 5. **Verify**: re-read the transformed output to check for coherence, correct timestamps, and completeness before presenting.
@@ -61,9 +64,10 @@ See `reference/output-formats.md` for worked examples of each format.
 
 The script exits 1 and prints `{"error": "..."}` on failure rather than a stack trace — read that message directly instead of guessing:
 
-- **Transcript disabled**: tell the user; suggest they check if subtitles are available on the video page.
+- **Transcript disabled**: tell the user; suggest they check if subtitles are available on the video page. Retrying with different `--language` values will not help this case.
 - **Private/unavailable video**: relay the error and ask the user to verify the URL.
-- **No matching language**: retry without `--language` to fetch any available transcript, then note the actual language to the user.
+- **"No transcript found. Try specifying a language..."**: this means the default (no-`--language`) call couldn't resolve a track — **add** an explicit `--language` list guessed from the video's apparent language (see Workflow step 2). This is the opposite fix from "wrong language was specified."
+- **A specified `--language` came back empty**: drop `--language` (or broaden the list) to fetch whatever's available, then tell the user the actual language returned.
 - **Dependency missing**: run the Setup command above and retry.
 
 ## Known Limitations
