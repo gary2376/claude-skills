@@ -1,22 +1,24 @@
 ---
 name: bigtech-career-radar
-description: "Use when the user wants to monitor AI/ML/software hiring signals at major tech companies (Taiwan or global) and turn them into a learning-priority roadmap — e.g. '幫我看台積電/聯發科/Google最近在找什麼AI職缺', '追蹤大公司AI職缺趨勢', '這些職缺該學什麼技能', or wants a recurring weekly digest of this. Two-stage pipeline: a collector that pulls only official/first-party sources (with per-company retrieval recipes: MediaTek tRPC API, TSMC 403 handling, Workday-based companies, AUO/Google job APIs) tiered by trust, and an analyzer that turns the collected evidence into P1/P2/P3 learning priorities. Core differentiator: refuses to launder blocked pages, search-engine snippets, or 104-board noise into confident hiring-trend claims — every conclusion is tagged with its evidence tier."
+description: "Use when the user wants to monitor official hiring signals for any industry/companies and turn them into a learning-priority roadmap — e.g. '幫我看台積電/聯發科/Google最近在找什麼AI職缺', '追蹤心理師職缺', '保險業職缺該學什麼技能', or wants a recurring digest of this. Config-driven: ships an AI/Taiwan-bigtech example plus a psychologist and an insurance example, and generalizes to any industry via a JSON config (company list + keywords) using three reusable adapters (Workday, WordPress association/union job boards, generic Chinese-labeled job pages) or a company-specific one written the same way MediaTek/Acer/AUO/Google's were. Core differentiator: refuses to launder blocked pages, search-engine snippets, or job-board noise into confident hiring-trend claims — every conclusion is tagged with its evidence tier."
 ---
 
-# 大公司AI職涯訊號雷達
+# 職缺訊號雷達（config驅動，不限產業）
 
-追蹤台灣/全球大公司的AI/ML/軟體職缺訊號，轉成有優先順序的學習路線圖。核心差異化：市面上多數「職缺爬蟲/技能雷達」是把搜尋引擎結果或104關鍵字命中直接當成市場需求，這個skill把「來源可信度」當一等公民——官方API/官方頁 vs 104人工入口 vs 被擋的頁面，分開處理，被擋就老實寫被擋，不腦補技能方向。
+追蹤任何產業/公司的官方職缺訊號，轉成有優先順序的學習路線圖。核心差異化：市面上多數「職缺爬蟲/技能雷達」是把搜尋引擎結果或104關鍵字命中直接當成市場需求，這個skill把「來源可信度」當一等公民——官方API/官方頁 vs 人工入口 vs 被擋的頁面，分開處理，被擋就老實寫被擋，不腦補技能方向。
+
+**不限AI/科技業**：公司清單、關鍵字、輸出標題全部搬進`config.json`，換產業不用改程式碼。內建3份範例設定檔（AI/台灣大公司、台灣臨床心理師、台灣壽險業），三個都已經真的跑過、有真實職缺資料驗證過。
 
 這套三層來源分級跟兩階段管線設計，是從實際反覆執行、觀察各公司來源穩不穩定之後整理出來的規則，不是憑空設計的規則。
 
 ## 何時觸發
 
 使用者問：
-- 現在大公司AI/軟體職缺在找什麼技術？
-- 我該學什麼才能進台積電/聯發科/Google/NVIDIA這類公司？
+- 現在大公司AI/軟體職缺在找什麼技術？（或任何其他產業：心理師、保險、室內設計⋯）
+- 我該學什麼才能進某家公司/某個領域？
 - 幫我定期追蹤職缺市場，看技能需求有沒有變化
 - 把一堆職缺整理成實際的學習路線
-- 想擴大追蹤的公司池，判斷哪些公司值得監控
+- 想追蹤一個全新的產業/公司池，判斷哪些來源值得監控
 - 想知道哪些職缺家族在多家公司都重複出現
 
 ## 核心設計：兩階段管線，不要混在一個prompt裡
@@ -30,23 +32,53 @@ description: "Use when the user wants to monitor AI/ML/software hiring signals a
 
 ## Stage A：收集（Collector）
 
-### 預設監控公司池
+### config驅動，換產業不用改程式碼
 
-`scripts/track_bigtech_signals.py`目前實際內建17家：台積電、聯發科、瑞昱、宏碁、趨勢科技、華碩、緯穎、台達電、友達、研華、光寶、廣達、和碩、英業達、鴻海、Google、NVIDIA。
-
-可再擴充：ASML Taiwan、AMD、Intel Taiwan、Qualcomm、Microsoft、AWS等。
-
-依使用者需求調整——公司池不是固定清單，原則是「能不能提供可驗證的官方職缺證據」，不是公司知名度。新增公司時記得同步更新這份清單，避免文件跟程式碼對不上。
-
-### 執行
+`scripts/track_signals.py`不寫死任何公司/關鍵字，全部從`--config`指定的JSON檔讀。內建3份範例：
 
 ```
-python3 scripts/track_bigtech_signals.py
+python3 scripts/track_signals.py --config config.ai-taiwan.json        # AI/台灣大公司(預設)
+python3 scripts/track_signals.py --config config.psychologist-tw.json  # 台灣臨床心理師
+python3 scripts/track_signals.py --config config.insurance-tw.json     # 台灣壽險業
 ```
 
-這支腳本直接打各公司官方API/職缺頁（MediaTek tRPC、宏碁SuccessFactors頁、Trend Micro/Advantech的Workday API、AUO的job_list API、Google官方職缺頁、各公司官方RSS），輸出一份分公司列出職缺/訊號、並標明「可直接信任」vs「僅供人工入口」的markdown報告。沒有可用官方來源的公司會老實印失敗訊息，不會讓整支程式中斷。
+三份都真的跑過、抓到真實職缺資料（不是只有架構沒驗證）。
 
-若使用者要追蹤的公司不在腳本清單裡，先查該公司官方careers頁是不是有可用的API/RSS（見`reference/company-retrieval-notes.md`的判斷方法跟已知案例），再決定要不要擴充腳本，或先降級成「僅人工入口監控」。
+### config.json結構
+
+```json
+{
+  "title": "報告標題",
+  "intro_notes": ["開頭說明文字"],
+  "companies": [
+    {"name": "公司/機構名", "adapter": "解析器名稱或manual", "career_url": "...", "notes": ["..."], "adapter_params": {...}}
+  ],
+  "official_feeds": [{"label": "...", "url": "RSS網址", "require_any": [...], "block_any": [...]}],
+  "job_focus_keywords": ["篩選職缺用的關鍵字"],
+  "trend_keywords": ["篩選RSS趨勢用的關鍵字"],
+  "focus_area_buckets": [["分類標籤", ["關鍵字1", "關鍵字2"]]]
+}
+```
+
+### 7種解析器（adapter）
+
+**3個通用型，換公司只要改config參數，不用寫新程式碼：**
+- `workday`：用Workday當徵才系統、且網址是`{tenant}.wd3.myworkdayjobs.com/.../External/jobs`這個已驗證格式的公司，參數只要`tenant`(租戶名稱)+`search_text`+`location_filters`。Workday本身橫跨產業(零售/金融/製造/科技都有公司用)，但不同公司的Workday部署可能用不同shard(wd1~wd5)或不同site路徑(非External)，套用新公司時要先確認網址格式吻合，不吻合就要調整`parse_workday_jobs()`裡寫死的host/path。範例：趨勢科技、研華。
+- `wordpress_category`：公會/學會/協會常見的WordPress徵才專區，抓分類頁的entry-title清單，逐篇讀取內容。範例：台灣臨床心理學會徵才專區。
+- `labeled_html_page`：單一頁面裡用中文欄位標籤（機關名稱/職稱/資格條件/工作內容/工作地點等常見別名）重複列出多筆職缺的公司官網常見格式。範例：台灣人壽「一般職缺」頁。
+
+**4個公司專屬型，示範怎麼寫一支新的，換公司不一定能直接套：**
+- `mediatek_trpc`（聯發科官方tRPC API）、`acer_successfactors`（宏碁SuccessFactors頁）、`auo_joblist`（友達自家API）、`google_careers`（Google官方職缺頁HTML）。
+
+**`manual`**：沒有可用API/穩定解析格式的公司，只印官方連結當人工複查入口，不硬解析。
+
+### 幫使用者換新產業/公司池時怎麼做
+
+1. 先問清楚目標產業、關鍵字、想追蹤的機構/公司名單。
+2. 對每個目標，先查官方職缺頁是不是Workday(`*.myworkdayjobs.com`)或WordPress徵才專區——是的話直接套`workday`/`wordpress_category`，只要填參數。
+3. 都不是的話，實際curl/fetch該頁面看內容：能抓到結構化中文欄位（職稱/資格條件/工作內容這類）就試`labeled_html_page`；被403/WAF/CAPTCHA擋住、或整頁是JS渲染空殼，直接標`manual`，不要嘗試繞過反爬蟲機制（可能涉及違反對方服務條款，也不是這個skill的目標）。
+4. 寫一份新的`config.<產業>.json`，跑`python3 scripts/track_signals.py --config config.<產業>.json`實際驗證有沒有抓到真實資料，不要只憑猜測就交付。
+5. 見`reference/company-retrieval-notes.md`已知案例(MediaTek/TSMC/Google/NVIDIA/Acer/Workday系公司)的判斷方法。
 
 ### 來源分級（貫穿整個skill的核心規則）
 
@@ -136,16 +168,20 @@ python3 scripts/track_bigtech_signals.py
 ```
 SKILL.md
 scripts/
-  track_bigtech_signals.py   Stage A收集腳本，直接打各公司官方/第一方來源(API+RSS+可解析careers頁)，輸出markdown報告（stdlib only）
+  track_signals.py              Stage A收集腳本，config驅動，7種adapter（stdlib only）
+  config.ai-taiwan.json         範例1：AI/台灣大公司(17家，跟舊版行為一致)
+  config.psychologist-tw.json   範例2：台灣臨床心理師(學會徵才專區)
+  config.insurance-tw.json      範例3：台灣壽險業(公司官網職缺頁)
 reference/
-  104-job-board-notes.md         104職缺板存取細節與信心降級規則
+  104-job-board-notes.md         104職缺板存取細節與信心降級規則(適用任何被擋的類104平台)
   company-retrieval-notes.md     各公司官方來源存取方式(MediaTek tRPC/TSMC 403/Acer SuccessFactors/Workday系/AUO API等)
   role-family-clustering.md      跨公司職缺家族分群方法、兩層雷達格式
 ```
 
 ## 已知限制（誠實列出）
 
-- 預設公司池以台灣大公司為主，是使用者原始情境下的設定，換題目/換國家要自己調整`scripts/track_bigtech_signals.py`裡的`COMPANIES`清單。
+- 3份範例設定檔都真的驗證過能抓到真實職缺，但只驗證了各自設定檔裡列的那幾個來源——換到別的公司/機構，`workday`/`wordpress_category`理論上該通用，`labeled_html_page`的中文欄位別名清單(`FIELD_ALIASES`)是從2個真實案例(台灣臨床心理學會、台灣人壽)歸納出來的，換一個網站的欄位命名習慣不同就可能抓不到，需要重新驗證、必要時擴充別名清單。
 - 官方來源的可解析程度會隨時間變（公司改版官網、換API），`reference/company-retrieval-notes.md`裡的存取方式是特定時間點觀察到的結果，不是永久保證，要定期重新驗證。
+- 遇到CAPTCHA/企業級WAF/純JS渲染的頁面（104、1111人力銀行、國泰/富邦人壽、NVIDIA台灣職缺頁等都屬此類），不要嘗試用無頭瀏覽器等方式繞過——這已經超出「解析可公開存取的HTML」範疇，可能涉及違反對方服務條款，直接標`manual`人工複查即可。
 - Stage B的分析仰賴LLM讀Stage A輸出後的判斷，不是決定性演算法，樣本薄的公司/職缺家族分類邊界可能不準。
 - 104職缺板目前沒有穩定的機器可解析路徑，長期只能當人工複查入口，這是外部限制不是這個skill能解的。

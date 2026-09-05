@@ -1,0 +1,188 @@
+{
+  "title": "大科技 AI / 職缺監測（官方來源優先版）",
+  "intro_notes": [
+    "這版不再使用 Bing RSS 去猜 104 搜尋結果，避免產出字典、股市、下載站等雜訊。",
+    "優先使用官方 careers 頁、官方部落格 / RSS，以及可直接驗證的台灣職缺頁。",
+    "104 目前改成『人工複查入口』，保留連結但不把搜尋引擎結果當正式訊號。"
+  ],
+  "companies": [
+    {
+      "name": "台積電",
+      "adapter": "manual",
+      "career_url": "https://careers.tsmc.com/zh_TW/careers/SearchJobs",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E5%8F%B0%E7%A9%8D%E9%9B%BB%20AI",
+      "notes": ["官方 SearchJobs 頁目前仍被 Cloudflare challenge 擋住，腳本抓取會回 403。"]
+    },
+    {
+      "name": "聯發科",
+      "adapter": "mediatek_trpc",
+      "career_url": "https://careers.mediatek.com/zh-tw/jobs",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E8%81%AF%E7%99%BC%E7%A7%91%20AI",
+      "notes": ["官方 jobs 頁本身有 locale redirect 問題，但底層官方 tRPC API 可直接查詢。"],
+      "adapter_params": {
+        "trpc_url": "https://careers.mediatek.com/api/trpc/job.getJobs",
+        "queries": [
+          {"label": "機器學習", "keywords": ["機器學習"], "limit": 5},
+          {"label": "AI Runtime", "keywords": ["AI Runtime"], "limit": 3},
+          {"label": "LLM", "keywords": ["LLM"], "limit": 3}
+        ],
+        "locations": ["0000009255", "0000009256", "0000073451", "9031"]
+      }
+    },
+    {
+      "name": "瑞昱",
+      "adapter": "manual",
+      "career_url": "https://www.realtek.com/",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E7%91%9E%E6%98%B1%20AI",
+      "notes": ["官方站可進，但未找到穩定、可直接解析的職缺列表頁。"]
+    },
+    {
+      "name": "宏碁",
+      "adapter": "acer_successfactors",
+      "career_url": "https://careers.acer.com/go/All-Jobs/7865610/?locale=en_US",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Acer%20AI",
+      "notes": ["官方 SuccessFactors All Jobs 頁可直接解析職缺卡片。"],
+      "adapter_params": {
+        "all_jobs_url": "https://careers.acer.com/go/All-Jobs/7865610/?locale=en_US",
+        "country_code": "TW",
+        "limit": 120
+      }
+    },
+    {
+      "name": "趨勢科技",
+      "adapter": "workday",
+      "career_url": "https://trendmicro.wd3.myworkdayjobs.com/External",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E8%B6%A8%E5%8B%A2%E7%A7%91%E6%8A%80%20AI",
+      "notes": ["官方 Workday API 可直接查詢台北職缺。"],
+      "adapter_params": {"tenant": "trendmicro", "search_text": "Taipei", "location_filters": ["Taipei"], "limit": 80}
+    },
+    {
+      "name": "華碩",
+      "adapter": "manual",
+      "career_url": "https://careers.asus.com/",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=ASUS%20AI",
+      "notes": ["官方 careers 首頁可開，底層使用 Jobvite，但這次尚未補到台灣職缺的穩定解析規則。"]
+    },
+    {
+      "name": "緯穎",
+      "adapter": "manual",
+      "career_url": "https://www.wiwynn.com/careers",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Wiwynn%20AI",
+      "notes": ["官方 careers 頁可開，目前偏品牌/人才頁，尚未補到可重複解析的職缺列表。"]
+    },
+    {
+      "name": "台達電",
+      "adapter": "manual",
+      "career_url": "https://www.deltaww.com/zh-TW/careers",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E5%8F%B0%E9%81%94%E9%9B%BB%20AI",
+      "notes": ["官方 careers 頁可開，但目前較像人才品牌入口，尚未補到穩定職缺清單。"]
+    },
+    {
+      "name": "友達",
+      "adapter": "auo_joblist",
+      "career_url": "https://career.auo.com/job_list",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=AUO%20AI",
+      "notes": ["官方 job_list 與 GetJobList API 可直接查詢；這次已補到 AI / 全端 / 資料整合相關職缺。"],
+      "adapter_params": {
+        "api_url": "https://career.auo.com/job_list/GetJobList",
+        "queries": ["AI", "全端", "資料"],
+        "limit_per_query": 4
+      }
+    },
+    {
+      "name": "研華",
+      "adapter": "workday",
+      "career_url": "https://www.advantech.com/zh-tw/careers",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Advantech%20AI",
+      "notes": ["官方 careers 頁可開，且底層 Workday API 可直接查詢。"],
+      "adapter_params": {
+        "tenant": "advantech",
+        "search_text": "Taiwan",
+        "location_filters": ["Taipei", "Linkou", "Kaohsiung", "Taoyuan", "Taiwan"],
+        "limit": 80
+      }
+    },
+    {
+      "name": "光寶",
+      "adapter": "manual",
+      "career_url": "https://www.liteon.com/zh-tw/hroverview/hr-overview",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Liteon%20AI",
+      "notes": ["官方人才頁可開，但目前主要是招募品牌與 104 入口，尚未補到穩定職缺 API。"]
+    },
+    {
+      "name": "廣達",
+      "adapter": "manual",
+      "career_url": "https://www.quantatw.com/Quanta/chinese/04_careers/01_careers.aspx",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=%E5%BB%A3%E9%81%94%20AI",
+      "notes": ["官方招募頁目前會被 Radware bot challenge 攔下，暫時只能當官方入口。"]
+    },
+    {
+      "name": "和碩",
+      "adapter": "manual",
+      "career_url": "https://www.pegatroncorp.com/",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Pegatron%20AI",
+      "notes": ["官方企業站可開，但尚未找到明確公開的職缺列表頁。"]
+    },
+    {
+      "name": "英業達",
+      "adapter": "manual",
+      "career_url": "https://www.inventec.com/",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Inventec%20AI",
+      "notes": ["官方企業站可開，首頁可見人才招募入口，但尚未補到穩定職缺列表。"]
+    },
+    {
+      "name": "鴻海",
+      "adapter": "manual",
+      "career_url": "https://www.foxconn.com/zh-tw",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Foxconn%20AI",
+      "notes": ["官方企業站可開，但尚未找到公開且穩定的職缺列表頁。"]
+    },
+    {
+      "name": "Google",
+      "adapter": "google_careers",
+      "career_url": "https://www.google.com/about/careers/applications/jobs/results/?location=Taiwan",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=Google%20AI",
+      "notes": ["Google Careers 台灣頁面可直接解析，這次輸出以官方職缺為主。"],
+      "adapter_params": {
+        "base_url": "https://www.google.com/about/careers/applications/",
+        "location": "Taiwan",
+        "limit": 40
+      }
+    },
+    {
+      "name": "NVIDIA",
+      "adapter": "manual",
+      "career_url": "https://jobs.nvidia.com/careers?location=Taiwan",
+      "job104_url": "https://www.104.com.tw/jobs/search/?keyword=NVIDIA%20AI",
+      "notes": ["NVIDIA Taiwan careers 落地頁可開，但 job cards 為前端渲染，這次先保留官方搜尋入口。"]
+    }
+  ],
+  "official_feeds": [
+    {
+      "label": "Google Blog / AI",
+      "url": "https://blog.google/technology/ai/rss/",
+      "allow_domains": ["blog.google", "blog.google/technology/ai"],
+      "require_any": ["ai", "gemini", "agent", "agents", "model", "reasoning", "multimodal", "inference"],
+      "block_any": ["shopping", "thrift", "search tips"]
+    },
+    {
+      "label": "NVIDIA Blog",
+      "url": "https://blogs.nvidia.com/feed/",
+      "allow_domains": ["blogs.nvidia.com"],
+      "require_any": ["ai", "agent", "agents", "robot", "robotics", "inference", "omniverse", "blackwell", "gr00t", "llm"],
+      "block_any": ["nvidia-life", "employee spotlight"]
+    }
+  ],
+  "trend_keywords": ["ai", "agent", "agents", "multimodal", "document", "ocr", "robot", "robotics", "inference", "serving", "infrastructure", "cloud", "platform", "edge", "on-device", "vision", "silicon", "reasoning", "enterprise"],
+  "job_focus_keywords": ["ai", "machine learning", "software", "firmware", "hardware", "silicon", "cloud", "platform", "pixel", "automation", "reliability", "infrastructure", "verification", "systems", "test", "runtime", "embedded", "security", "cyber", "robotics"],
+  "focus_area_buckets": [
+    ["AI infrastructure / 系統可靠性", ["ai infrastructure", "reliability", "system hardware", "ai-infrastructure"]],
+    ["Cloud platform / release engineering", ["cloud", "platform", "release engineering"]],
+    ["Silicon / verification / test", ["silicon", "verification", "test", "packaging", "cpu", "antenna"]],
+    ["Firmware / embedded power", ["firmware", "power", "embedded", "runtime"]],
+    ["Automation / TPM", ["automation", "program manager"]],
+    ["Agent / multimodal / robotics", ["agent", "multimodal", "robot", "robotics"]],
+    ["On-device / edge AI", ["pixel", "wearables", "edge", "on-device"]],
+    ["Security / cyber platform", ["security", "cyber", "tippingpoint"]]
+  ]
+}

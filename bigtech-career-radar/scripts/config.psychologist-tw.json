@@ -1,0 +1,41 @@
+{
+  "title": "台灣臨床心理師 職缺監測（官方來源優先版）",
+  "intro_notes": [
+    "這是bigtech-career-radar範例外的另一個產業設定檔，示範同一套方法論怎麼套到心理師領域。",
+    "台灣臨床心理學會的徵才專區是WordPress架設，用通用的wordpress_category解析器直接解析，不需要另外寫程式。"
+  ],
+  "companies": [
+    {
+      "name": "台灣臨床心理學會",
+      "adapter": "wordpress_category",
+      "career_url": "https://taclip.org.tw/category/news/recruitment/",
+      "notes": ["學會徵才專區，WordPress標準entry-title結構，可直接解析逐篇職缺內容。"],
+      "adapter_params": {"category_url": "https://taclip.org.tw/category/news/recruitment/", "limit": 10}
+    },
+    {
+      "name": "台大醫院",
+      "adapter": "manual",
+      "career_url": "https://www.ntuh.gov.tw/ntuh/Recruit.action",
+      "notes": ["官方招募頁可連(200)，但首頁非職缺清單本身，要再往下挖才找得到心理師職缺，還沒驗證。"]
+    },
+    {
+      "name": "長庚醫療體系",
+      "adapter": "manual",
+      "career_url": "https://www.cgmh.org.tw/tw/Systems/RecruitInfo/3",
+      "notes": ["官方招募頁可連(200)，同上，首頁非職缺清單，需再往下挖。"]
+    },
+    {
+      "name": "馬偕紀念醫院",
+      "adapter": "manual",
+      "career_url": "https://www.mmh.org.tw/news_list.php?tp=4",
+      "notes": ["被WAF擋掉(Request Rejected)，跟企業級bot防護同類，只能人工複查。"]
+    }
+  ],
+  "job_focus_keywords": ["臨床心理師", "心理師", "心理治療", "心理衡鑑", "早療", "兒童", "精神", "腫瘤", "癌症", "ICF", "諮商", "PGY"],
+  "focus_area_buckets": [
+    ["兒童 / 早期療育臨床心理", ["早療", "兒童", "發展遲緩", "自閉症"]],
+    ["精神醫療 / 危機處遇", ["精神", "危機", "社區復歸"]],
+    ["腫瘤 / 安寧心理照護", ["腫瘤", "癌症", "安寧"]],
+    ["身心障礙鑑定", ["icf", "鑑定"]]
+  ]
+}

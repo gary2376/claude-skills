@@ -1,0 +1,40 @@
+{
+  "title": "台灣壽險業 職缺監測（官方來源優先版）",
+  "intro_notes": [
+    "這是bigtech-career-radar範例外的另一個產業設定檔，示範同一套方法論怎麼套到保險領域。",
+    "台灣人壽的『一般職缺』頁是結構固定的中文欄位格式，用通用的labeled_html_page解析器直接解析。"
+  ],
+  "companies": [
+    {
+      "name": "台灣人壽",
+      "adapter": "labeled_html_page",
+      "career_url": "https://www.taiwanlife.com/AboutUs-recruiting-general",
+      "notes": ["「一般職缺」頁(非業務員招募)，中文欄位標籤固定，可直接解析。"],
+      "adapter_params": {"url": "https://www.taiwanlife.com/AboutUs-recruiting-general", "block_marker": "職缺", "limit": 10}
+    },
+    {
+      "name": "國泰人壽",
+      "adapter": "manual",
+      "career_url": "https://www.cathaylife.com.tw/cathaylife/abouts/recruiting",
+      "notes": ["前端JS渲染，直接抓HTML抓不到職缺內容。"]
+    },
+    {
+      "name": "富邦人壽",
+      "adapter": "manual",
+      "career_url": "https://www.fubon.com/life/about-us/ccareer/",
+      "notes": ["前端JS渲染，直接抓HTML抓不到職缺內容。"]
+    },
+    {
+      "name": "南山人壽",
+      "adapter": "manual",
+      "career_url": "https://www.nanshanlife.com.tw/public_promotion/subject/AgentHiring/index.html",
+      "notes": ["頁面內容是業務員招募故事(行銷性質)，沒有具體職缺/技能要求可解析。"]
+    }
+  ],
+  "job_focus_keywords": ["java", "spring", "rest api", "git", "系統分析", "理賠", "保費", "保服", "財務", "專案管理", "不動產", "投資開發", "程式設計"],
+  "focus_area_buckets": [
+    ["IT / 系統開發", ["java", "spring", "rest", "系統", "程式設計"]],
+    ["財務 / 投資", ["財務", "投資", "不動產"]],
+    ["專案 / 流程管理", ["專案", "流程", "管理"]]
+  ]
+}
