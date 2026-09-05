@@ -7,6 +7,7 @@
 - [resume-jd-checker](resume-jd-checker/) — 繁體中文履歷 x JD 關鍵字健檢
 - [prompt-craft](prompt-craft/) — 模糊需求轉結構化 prompt，缺漏欄位主動反問
 - [dating-profile-checker](dating-profile-checker/) — 交友軟體自介健檢，依平台跟目標給對應建議
+- [bigtech-career-radar](bigtech-career-radar/) — 追蹤大公司AI職缺訊號，分級來源可信度，轉成學習優先順序
 
 ## 安裝
 
