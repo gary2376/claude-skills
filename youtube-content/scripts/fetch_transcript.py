@@ -87,6 +87,9 @@ def main():
     args = parser.parse_args()
 
     video_id = extract_video_id(args.url)
+    if not re.fullmatch(r'[a-zA-Z0-9_-]{11}', video_id):
+        print(json.dumps({"error": f"Could not extract an 11-character YouTube video ID from '{args.url}'."}))
+        sys.exit(1)
     languages = [l.strip() for l in args.language.split(",")] if args.language else None
 
     try:
