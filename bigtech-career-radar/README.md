@@ -35,6 +35,12 @@ npx skills add https://github.com/gary2376/claude-skills/tree/master/bigtech-car
 > - 精神醫療 / 危機處遇
 > - 腫瘤 / 安寧心理照護
 
+## 我自己怎麼用
+
+先跑這個skill找出目標領域市場真的在要什麼技能 → 針對缺口去找對應教學影片，用[youtube-content](../youtube-content/)這個skill轉成逐字稿摘要 → 把兩邊輸出餵進LLM Wiki持續累積。
+
+**實例**：跑一次AI／台灣大公司設定，抓到「Cloud platform / release engineering」跟「MLOps」是市場熱門但我作品集缺的方向——這就是我下一步要補的技能。
+
 ## 已知限制
 
 見`SKILL.md`「已知限制」一節——`labeled_html_page`解析器的中文欄位別名是從2個真實案例歸納的，換網站可能要擴充別名；遇到CAPTCHA/企業級WAF/純JS渲染的頁面(104、1111人力銀行等)一律標人工複查，不嘗試繞過反爬蟲機制。
